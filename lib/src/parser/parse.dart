@@ -318,11 +318,10 @@ class Parser {
         node1.findAllElements('numFmt').forEach((node) {
           final numFmtId = int.parse(node.getAttribute('numFmtId')!);
           final formatCode = node.getAttribute('formatCode')!;
+          // IDs 0-163 are reserved for built-in formats; skip redefinition to avoid "already exists"
           if (numFmtId < 164) {
-            // throw Exception(
-            //     'custom numFmtId starts at 164 but found a value of $numFmtId');
+            return;
           }
-
           _excel._numFormats
               .add(numFmtId, NumFormat.custom(formatCode: formatCode));
         });
